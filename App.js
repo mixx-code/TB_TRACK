@@ -12,6 +12,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Splash from './screens/Splash';
 import LandingScreen from './screens/LandingScreen';
 import HomeScreen from './screens/HomeScreen';
+import InfoTBC from './screens/InfoTBC';
+import ArtikelTBC from './screens/ArtikelTBC';
+import DetailArtikel from './screens/DetailArtikel';
 const Stack = createNativeStackNavigator();
 const store = configureStore();
 const App = () => {
@@ -57,6 +60,9 @@ const App = () => {
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="MenuInfo" component={InfoTBC} />
+          <Stack.Screen name="MenuArtikel" component={ArtikelTBC} />
+          <Stack.Screen name="DetailArtikel" component={DetailArtikel} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

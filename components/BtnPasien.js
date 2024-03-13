@@ -17,11 +17,13 @@ const BtnPasien = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [valueNamaLekap, setValueNamaLengkap] = useState('');
   const [valueUmur, setValueUmur] = useState('');
-  const [valueRtRw, setValueRtRw] = useState('');
+  const [valueRt, setValueRt] = useState('');
+  const [valueRw, setValueRw] = useState('');
   const [valueAlamat, setValueAlamat] = useState('');
   const [validasiNamaLengkap, setValidasiNamaLengkap] = useState();
   const [validasiUmur, setValidasiUmur] = useState();
-  const [validasiRtRw, setValidasiRtRw] = useState();
+  const [validasiRt, setValidasiRt] = useState();
+  const [validasiRw, setValidasiRw] = useState();
   const [validasiAlamat, setValidasiAlamat] = useState();
   const [valueDataUser, setValueDataUser] = useState([]);
   const [isCekSudahDaftar, setIsCekSudahDaftar] = useState(false);
@@ -47,12 +49,13 @@ const BtnPasien = ({navigation}) => {
     const dataUser = {
       nama_lengkap: valueNamaLekap,
       umur: valueUmur,
-      rt_rw: valueRtRw,
+      rt: valueRt,
+      rw: valueRw,
       alamat: valueAlamat,
     };
 
     setValueDataUser(dataUser);
-  }, [valueNamaLekap, valueUmur, valueRtRw, valueAlamat]);
+  }, [valueNamaLekap, valueUmur, valueRt, valueAlamat, valueRw]);
 
   const validasi_nama_lengkap = () => {
     if (valueNamaLekap === '') {
@@ -74,13 +77,23 @@ const BtnPasien = ({navigation}) => {
       return true;
     }
   };
-  const validasi_rt_rw = () => {
-    if (valueRtRw === '') {
-      setValidasiRtRw(false);
+  const validasi_rt = () => {
+    if (valueRt === '') {
+      setValidasiRt(false);
       setIsLoading(false);
       return false;
     } else {
-      setValidasiRtRw(true);
+      setValidasiRt(true);
+      return true;
+    }
+  };
+  const validasi_rw = () => {
+    if (valueRw === '') {
+      setValidasiRw(false);
+      setIsLoading(false);
+      return false;
+    } else {
+      setValidasiRw(true);
       return true;
     }
   };
@@ -107,7 +120,8 @@ const BtnPasien = ({navigation}) => {
 
     setValidasiNamaLengkap(true);
     setValidasiUmur(true);
-    setValidasiRtRw(true);
+    setValidasiRt(true);
+    setValidasiRw(true);
     setValidasiAlamat(true);
   };
 
@@ -115,12 +129,9 @@ const BtnPasien = ({navigation}) => {
     setIsLoading(true);
     validasi_nama_lengkap();
     validasi_umur();
-    validasi_rt_rw();
     validasi_alamat();
-    console.log(validasiAlamat);
-    console.log(validasiNamaLengkap);
-    console.log(validasiRtRw);
-    console.log(validasiUmur);
+    validasi_rt();
+    validasi_rw();
     kirimDataKeStorge();
   };
 
@@ -128,8 +139,9 @@ const BtnPasien = ({navigation}) => {
     if (
       validasi_nama_lengkap() &&
       validasi_umur() &&
-      validasi_rt_rw() &&
-      validasi_alamat()
+      validasi_alamat() &&
+      validasi_rt() &&
+      validasi_rw()
     ) {
       const dataUserJson = JSON.stringify(valueDataUser);
       console.log('ini data', dataUserJson);
@@ -139,7 +151,8 @@ const BtnPasien = ({navigation}) => {
           setIsLoading(false);
           setValueNamaLengkap('');
           setValueUmur('');
-          setValueRtRw('');
+          setValidasiRt('');
+          setValidasiRw('');
           setValueAlamat('');
           navigation.navigate('HomeScreen');
         })
@@ -163,7 +176,7 @@ const BtnPasien = ({navigation}) => {
             </Text>
           </View>
           <View style={styles.wrapTextField}>
-            <Text style={styles.label}>Masukan Nama Lengkap </Text>
+            <Text style={styles.label}>Nama Lengkap </Text>
             <TextInput
               style={[
                 styles.textField,
@@ -171,43 +184,60 @@ const BtnPasien = ({navigation}) => {
                   ? {borderWidth: 1, borderColor: '#D04848'}
                   : '',
               ]}
-              placeholder="Masukan Nama Lengkap"
+              placeholder="Nama Lengkap"
               onChangeText={e => setValueNamaLengkap(e)}
               value={valueNamaLekap}
             />
           </View>
           <View style={styles.wrapTextField}>
-            <Text style={styles.label}>Masukan Umur </Text>
+            <Text style={styles.label}>Umur </Text>
             <TextInput
               style={[
                 styles.textField,
                 !validasiUmur ? {borderWidth: 1, borderColor: '#D04848'} : '',
               ]}
-              placeholder="Masukan Umur"
+              placeholder="Umur"
               onChangeText={e => setValueUmur(e)}
               value={valueUmur}
+              keyboardType="number-pad"
             />
           </View>
-          <View style={styles.wrapTextField}>
-            <Text style={styles.label}>Masukan Rt/Rw </Text>
-            <TextInput
-              style={[
-                styles.textField,
-                !validasiRtRw ? {borderWidth: 1, borderColor: '#D04848'} : '',
-              ]}
-              placeholder="Masukan Rt/Rw"
-              onChangeText={e => setValueRtRw(e)}
-              value={valueRtRw}
-            />
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.wrapRwRw}>
+              <Text style={styles.label}>RT</Text>
+              <TextInput
+                style={[
+                  styles.textField,
+                  !validasiRt ? {borderWidth: 1, borderColor: '#D04848'} : '',
+                ]}
+                placeholder="RT"
+                onChangeText={e => setValueRt(e)}
+                value={valueRt}
+                keyboardType="number-pad"
+              />
+            </View>
+            <View style={styles.wrapRwRw}>
+              <Text style={styles.label}>RW</Text>
+              <TextInput
+                style={[
+                  styles.textField,
+                  !validasiRw ? {borderWidth: 1, borderColor: '#D04848'} : '',
+                ]}
+                placeholder="RW"
+                onChangeText={e => setValueRw(e)}
+                value={valueRw}
+                keyboardType="number-pad"
+              />
+            </View>
           </View>
           <View style={styles.wrapTextField}>
-            <Text style={styles.label}>Masukan Alamat Lengkap </Text>
+            <Text style={styles.label}>Alamat Lengkap </Text>
             <TextInput
               style={[
                 styles.textField,
                 !validasiAlamat ? {borderWidth: 1, borderColor: '#D04848'} : '',
               ]}
-              placeholder="Masukan Alamat Lengkap"
+              placeholder="Alamat Lengkap"
               onChangeText={e => setValueAlamat(e)}
               value={valueAlamat}
             />
@@ -277,6 +307,11 @@ const styles = StyleSheet.create({
   },
   wrapTextField: {
     width: '100%',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  wrapRwRw: {
+    width: '50%',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },

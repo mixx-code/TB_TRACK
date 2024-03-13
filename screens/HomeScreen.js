@@ -1,36 +1,44 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {text} from '../text';
 import {colors} from '../colors';
+import BtnHamburger from '../components/BtnHamburger';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
+  const [dataUser, setDataUser] = useState([]);
   const dataMenu = [
     {
       icon: require('../sourcefile/imgs/menu_info.png'),
       title: 'Info TBC',
+      route: 'MenuInfo',
     },
     {
       icon: require('../sourcefile/imgs/menu_artikel.png'),
       title: 'Artikel TBC',
+      route: 'MenuArtikel',
     },
     {
       icon: require('../sourcefile/imgs/menu_remainder.png'),
       title: 'Remainder',
+      route: 'MenuRemainder',
     },
     {
       icon: require('../sourcefile/imgs/menu_pkm.png'),
       title: 'Info PKM',
+      route: 'MenuPKM',
     },
     {
       icon: require('../sourcefile/imgs/menu_makanan.png'),
       title: 'Makan Sehat',
+      route: 'MenuMakanSehat',
     },
     {
       icon: require('../sourcefile/imgs/menu_video.png'),
       title: 'Video Edukasi',
+      route: 'MenuVideoEdukasi',
     },
   ];
 
@@ -39,6 +47,7 @@ const HomeScreen = () => {
       .then(jsonData => {
         if (jsonData !== null) {
           const data = JSON.parse(jsonData);
+          setDataUser(data);
           console.log('Data user JSON:', data);
         } else {
           console.log('Tidak ada data JSON yang tersimpan.');
@@ -48,6 +57,10 @@ const HomeScreen = () => {
         console.error('Gagal mengambil data JSON:', error);
       });
   }, []);
+
+  const handleClickMenu = (screen, title) => {
+    navigation.navigate(screen, {title: title});
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -60,22 +73,24 @@ const HomeScreen = () => {
           source={require('../sourcefile/imgs/Vector_atas.jpg')}
           style={styles.vectorAtas}
         />
-        <Image
-          source={require('../sourcefile/imgs/logo.png')}
-          style={styles.logoImg}
-        />
+        <BtnHamburger />
       </View>
       <View style={styles.contentContainerMid}>
         <Text style={styles.welcomeMsg}>Selamat Datang!</Text>
-        <Text style={styles.nama}>MIA ATSAMU</Text>
+        <Text style={styles.nama}>
+          {dataUser.nama_lengkap !== '' ? dataUser.nama_lengkap : 'Hallo, User'}
+        </Text>
       </View>
       <View style={styles.contentContainerBottom}>
         <View style={styles.wrapIconMenu}>
           {dataMenu.map((data, index) => (
-            <View style={styles.wrapIconText} key={index}>
+            <TouchableOpacity
+              style={styles.wrapIconText}
+              key={index}
+              onPress={() => handleClickMenu(data.route, data.title)}>
               <Image source={data.icon} style={styles.iconMenu} />
               <Text style={styles.title}>{data.title}</Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
         <Image
@@ -107,6 +122,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '15%',
     paddingHorizontal: 20,
+    zIndex: -1,
   },
   welcomeMsg: {
     fontFamily: text.light,
