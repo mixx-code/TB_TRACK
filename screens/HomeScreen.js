@@ -56,7 +56,23 @@ const HomeScreen = ({navigation}) => {
       .catch(error => {
         console.error('Gagal mengambil data JSON:', error);
       });
-  }, []);
+    AsyncStorage.getItem('data_skrining')
+      .then(jsonData => {
+        if (jsonData !== null) {
+          const data = JSON.parse(jsonData);
+          setDataUser(data);
+          console.log('Data user JSON:', data);
+        } else {
+          console.log('Tidak ada data skrining JSON yang tersimpan.');
+          navigation.navigate('LembarPersetujuan', {
+            page: 'Lembar Persetujuan',
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data JSON:', error);
+      });
+  }, [navigation]);
 
   const handleClickMenu = (screen, title) => {
     navigation.navigate(screen, {title: title});

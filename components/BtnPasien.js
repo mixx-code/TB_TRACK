@@ -11,6 +11,9 @@ import {
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {text} from '../text';
+import {colors} from '../colors';
 
 const BtnPasien = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,13 +23,28 @@ const BtnPasien = ({navigation}) => {
   const [valueRt, setValueRt] = useState('');
   const [valueRw, setValueRw] = useState('');
   const [valueAlamat, setValueAlamat] = useState('');
+  const [valueNoHp, setValueNoHp] = useState('');
+
+  const [valuePuskesmas, setValuePuskesmas] = useState('');
   const [validasiNamaLengkap, setValidasiNamaLengkap] = useState();
   const [validasiUmur, setValidasiUmur] = useState();
   const [validasiRt, setValidasiRt] = useState();
   const [validasiRw, setValidasiRw] = useState();
   const [validasiAlamat, setValidasiAlamat] = useState();
+  const [validasiNoHp, setValidasiNoHp] = useState();
+  const [validasiJenisKelamin, setValidasiJenisKelamin] = useState();
+  const [validasiPuskesmas, setValidasiPuskesmas] = useState();
   const [valueDataUser, setValueDataUser] = useState([]);
   const [isCekSudahDaftar, setIsCekSudahDaftar] = useState(false);
+
+  //dropdown set
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [valueJenisKelamin, setValueJenisKelamin] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Laki-Laki', value: 'laki-laki'},
+    {label: 'Perempuan', value: 'perempuan'},
+  ]);
 
   useEffect(() => {
     const cekSudahDaftar = () => {
@@ -52,10 +70,22 @@ const BtnPasien = ({navigation}) => {
       rt: valueRt,
       rw: valueRw,
       alamat: valueAlamat,
+      no_hp: valueNoHp,
+      jenis_kelamin: valueJenisKelamin,
+      puskesmas: valuePuskesmas,
     };
 
     setValueDataUser(dataUser);
-  }, [valueNamaLekap, valueUmur, valueRt, valueAlamat, valueRw]);
+  }, [
+    valueNamaLekap,
+    valueUmur,
+    valueRt,
+    valueAlamat,
+    valueRw,
+    valueNoHp,
+    valueJenisKelamin,
+    valuePuskesmas,
+  ]);
 
   const validasi_nama_lengkap = () => {
     if (valueNamaLekap === '') {
@@ -107,6 +137,36 @@ const BtnPasien = ({navigation}) => {
       return true;
     }
   };
+  const validasi_jenis_kelamin = () => {
+    if (valueJenisKelamin === null) {
+      setValidasiJenisKelamin(false);
+      setIsLoading(false);
+      return false;
+    } else {
+      setValidasiJenisKelamin(true);
+      return true;
+    }
+  };
+  const validasi_no_hp = () => {
+    if (valueNoHp === '') {
+      setValidasiNoHp(false);
+      setIsLoading(false);
+      return false;
+    } else {
+      setValidasiNoHp(true);
+      return true;
+    }
+  };
+  const validasi_puskesmas = () => {
+    if (valuePuskesmas === '') {
+      setValidasiPuskesmas(false);
+      setIsLoading(false);
+      return false;
+    } else {
+      setValidasiPuskesmas(true);
+      return true;
+    }
+  };
 
   const handlePress = () => {
     console.log('klik');
@@ -123,6 +183,9 @@ const BtnPasien = ({navigation}) => {
     setValidasiRt(true);
     setValidasiRw(true);
     setValidasiAlamat(true);
+    setValidasiJenisKelamin(true);
+    setValidasiNoHp(true);
+    setValidasiPuskesmas(true);
   };
 
   const handleSubmit = () => {
@@ -132,6 +195,9 @@ const BtnPasien = ({navigation}) => {
     validasi_alamat();
     validasi_rt();
     validasi_rw();
+    validasi_no_hp();
+    validasi_puskesmas();
+    validasi_jenis_kelamin();
     kirimDataKeStorge();
   };
 
@@ -141,7 +207,10 @@ const BtnPasien = ({navigation}) => {
       validasi_umur() &&
       validasi_alamat() &&
       validasi_rt() &&
-      validasi_rw()
+      validasi_rw() &&
+      validasi_no_hp() &&
+      validasi_puskesmas() &&
+      validasi_jenis_kelamin()
     ) {
       const dataUserJson = JSON.stringify(valueDataUser);
       console.log('ini data', dataUserJson);
@@ -169,7 +238,7 @@ const BtnPasien = ({navigation}) => {
   return (
     <View style={{width: '100%', alignItems: 'center'}}>
       <Modal isVisible={modalVisible} backdropOpacity={0.5}>
-        <View style={{backgroundColor: '#ffffff', borderRadius: 10}}>
+        <View style={{backgroundColor: '#FCFCFC', borderRadius: 10}}>
           <View style={styles.title}>
             <Text style={{fontSize: 25, fontWeight: 'bold'}}>
               Isi Data Diri
@@ -180,9 +249,7 @@ const BtnPasien = ({navigation}) => {
             <TextInput
               style={[
                 styles.textField,
-                !validasiNamaLengkap
-                  ? {borderWidth: 1, borderColor: '#D04848'}
-                  : '',
+                !validasiNamaLengkap ? {borderColor: colors.primary} : '',
               ]}
               placeholder="Nama Lengkap"
               onChangeText={e => setValueNamaLengkap(e)}
@@ -194,11 +261,51 @@ const BtnPasien = ({navigation}) => {
             <TextInput
               style={[
                 styles.textField,
-                !validasiUmur ? {borderWidth: 1, borderColor: '#D04848'} : '',
+                !validasiUmur ? {borderColor: colors.primary} : '',
               ]}
               placeholder="Umur"
               onChangeText={e => setValueUmur(e)}
               value={valueUmur}
+              keyboardType="number-pad"
+            />
+          </View>
+          <View style={[styles.wrapTextField, {zIndex: 10}]}>
+            <Text style={styles.label}>Jenis Kelamin</Text>
+            <DropDownPicker
+              open={open}
+              value={valueJenisKelamin}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValueJenisKelamin}
+              setItems={setItems}
+              placeholder={'Pilih Jenis Kelamin'}
+              textStyle={{
+                fontFamily: text.regular,
+              }}
+              style={[
+                styles.textField,
+                !validasiJenisKelamin ? {borderColor: colors.primary} : '',
+              ]}
+              dropDownContainerStyle={{
+                borderColor: '#D9D9D9',
+                backgroundColor: '#F9F9F9',
+              }}
+              placeholderStyle={{
+                color: 'grey',
+                fontWeight: 'bold',
+              }}
+            />
+          </View>
+          <View style={styles.wrapTextField}>
+            <Text style={styles.label}>No Hp </Text>
+            <TextInput
+              style={[
+                styles.textField,
+                !validasiNoHp ? {borderColor: colors.primary} : '',
+              ]}
+              placeholder="No Hp"
+              onChangeText={e => setValueNoHp(e)}
+              value={valueNoHp}
               keyboardType="number-pad"
             />
           </View>
@@ -208,7 +315,7 @@ const BtnPasien = ({navigation}) => {
               <TextInput
                 style={[
                   styles.textField,
-                  !validasiRt ? {borderWidth: 1, borderColor: '#D04848'} : '',
+                  !validasiRt ? {borderColor: colors.primary} : '',
                 ]}
                 placeholder="RT"
                 onChangeText={e => setValueRt(e)}
@@ -221,7 +328,7 @@ const BtnPasien = ({navigation}) => {
               <TextInput
                 style={[
                   styles.textField,
-                  !validasiRw ? {borderWidth: 1, borderColor: '#D04848'} : '',
+                  !validasiRw ? {borderColor: colors.primary} : '',
                 ]}
                 placeholder="RW"
                 onChangeText={e => setValueRw(e)}
@@ -235,21 +342,33 @@ const BtnPasien = ({navigation}) => {
             <TextInput
               style={[
                 styles.textField,
-                !validasiAlamat ? {borderWidth: 1, borderColor: '#D04848'} : '',
+                !validasiAlamat ? {borderColor: colors.primary} : '',
               ]}
-              placeholder="Alamat Lengkap"
+              placeholder="Alamat Lengkap Anda"
               onChangeText={e => setValueAlamat(e)}
               value={valueAlamat}
+            />
+          </View>
+          <View style={styles.wrapTextField}>
+            <Text style={styles.label}>Puskesmas</Text>
+            <TextInput
+              style={[
+                styles.textField,
+                !validasiPuskesmas ? {borderColor: colors.primary} : '',
+              ]}
+              placeholder="Puskesmas Lengkap Anda"
+              onChangeText={e => setValuePuskesmas(e)}
+              value={valuePuskesmas}
             />
           </View>
           <View style={styles.wrapBtnModal}>
             <TouchableOpacity
               style={[
                 styles.btnModal,
-                {borderColor: '#D04848', borderWidth: 1},
+                {borderColor: colors.primary, borderWidth: 1},
               ]}
               onPress={handlePress}>
-              <Text style={{color: '#D04848'}}>Cancel</Text>
+              <Text style={{color: colors.primary}}>Cancel</Text>
             </TouchableOpacity>
             {isLoading ? (
               <TouchableOpacity
@@ -317,8 +436,10 @@ const styles = StyleSheet.create({
   },
   textField: {
     width: '100%',
-    backgroundColor: '#EEEEEE',
+    backgroundColor: '#F9F9F9',
     borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#D9D9D9',
   },
   label: {
     fontSize: 16,

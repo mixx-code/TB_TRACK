@@ -15,6 +15,7 @@ import HomeScreen from './screens/HomeScreen';
 import InfoTBC from './screens/InfoTBC';
 import ArtikelTBC from './screens/ArtikelTBC';
 import DetailArtikel from './screens/DetailArtikel';
+import LembarPersetujuan from './screens/LemberPersetujuan';
 const Stack = createNativeStackNavigator();
 const store = configureStore();
 const App = () => {
@@ -63,6 +64,10 @@ const App = () => {
           <Stack.Screen name="MenuInfo" component={InfoTBC} />
           <Stack.Screen name="MenuArtikel" component={ArtikelTBC} />
           <Stack.Screen name="DetailArtikel" component={DetailArtikel} />
+          <Stack.Screen
+            name="LembarPersetujuan"
+            component={LembarPersetujuan}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
