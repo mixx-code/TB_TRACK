@@ -16,6 +16,11 @@ import InfoTBC from './screens/InfoTBC';
 import ArtikelTBC from './screens/ArtikelTBC';
 import DetailArtikel from './screens/DetailArtikel';
 import LembarPersetujuan from './screens/LemberPersetujuan';
+import Skrining from './screens/Skrining';
+import SkriningUmum from './screens/SkriningUmum';
+import InfoPKM from './screens/InfoPKM';
+import PolaMakan from './screens/PolaMakan';
+import VideoEdukasi from './screens/VideoEdukasi';
 const Stack = createNativeStackNavigator();
 const store = configureStore();
 const App = () => {
@@ -62,12 +67,17 @@ const App = () => {
           <Stack.Screen name="LandingScreen" component={LandingScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MenuInfo" component={InfoTBC} />
+          <Stack.Screen name="MenuPKM" component={InfoPKM} />
+          <Stack.Screen name="MenuMakanSehat" component={PolaMakan} />
+          <Stack.Screen name="MenuVideoEdukasi" component={VideoEdukasi} />
           <Stack.Screen name="MenuArtikel" component={ArtikelTBC} />
           <Stack.Screen name="DetailArtikel" component={DetailArtikel} />
           <Stack.Screen
             name="LembarPersetujuan"
             component={LembarPersetujuan}
           />
+          <Stack.Screen name="Skrining" component={Skrining} />
+          <Stack.Screen name="SkriningUmum" component={SkriningUmum} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

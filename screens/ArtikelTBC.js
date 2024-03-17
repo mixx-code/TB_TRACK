@@ -8,7 +8,7 @@ import BtnBack from '../components/BtnBack';
 import CardArtikel from '../components/CardArtikel';
 
 const ArtikelTBC = ({navigation, route}) => {
-  const {title} = route.params;
+  const {page} = route.params;
   const dataListArtikel = [
     {
       penerbit: 'Penerbit 1',
@@ -84,11 +84,11 @@ const ArtikelTBC = ({navigation, route}) => {
     },
   ];
 
-  console.log(title);
+  console.log(page);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainerTop}>
-        <BtnBack navigation={navigation} title={title} />
+        <BtnBack navigation={navigation} title={page} />
         <Image
           source={require('../sourcefile/imgs/Vector_atas.jpg')}
           style={styles.vectorAtas}

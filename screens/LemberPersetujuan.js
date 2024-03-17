@@ -8,41 +8,75 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {text} from '../text';
 import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
 import CheckBox from '@react-native-community/checkbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LembarPersetujuan = ({navigation, route}) => {
   const {page} = route.params;
   const [isChecked, setIsChecked] = useState(false);
+  const [role, setRole] = useState(null);
 
   // const handleCheckBoxChange = () => {
   //   setIsChecked(!isChecked);
   // };
+  useEffect(() => {
+    AsyncStorage.getItem('data_user')
+      .then(jsonData => {
+        if (jsonData !== null) {
+          const data = JSON.parse(jsonData);
+          setRole(data.role);
+          console.log('Data user JSON:', data);
+        } else {
+          console.log('Tidak ada data JSON yang tersimpan.');
+        }
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data JSON:', error);
+      });
+  }, []);
+
+  const moveTo = () => {
+    const persetujuan = isChecked ? 'Setuju' : 'Tidak Setuju';
+    console.log(persetujuan);
+    AsyncStorage.setItem('data_persetujuan', persetujuan)
+      .then(() => {
+        console.log('Data PERSETUJUAN tersimpan.');
+        if (role === 'pasien') {
+          navigation.navigate('Skrining', {page: 'Skrining'});
+        } else {
+          navigation.navigate('SkriningUmum', {page: 'Skrining Umum'});
+        }
+      })
+      .catch(error => {
+        console.error('Gagal menyimpan data JSON:', error);
+      });
+  };
 
   console.log(page);
   console.log(isChecked);
   const poinPersetujuan = [
     {
       no: 1,
-      text: `Saya menyetujui kebijakan privasi dan persyaratan aplikasi`,
+      text: `Skrining atau tes pemeriksaan untuk mengetahui kondisi kesehatan lebih detail ini dilakukan untuk deteksi dini penyakit Tuberkulosis (TB/TBC)`,
     },
     {
       no: 2,
-      text: `Saya bertanggung jawab atas informasi yang saya berikan`,
+      text: `Hasil dan tindak lanjut:\nSkrining umum terhubung dengan Puskesmas Kampung Sawah dengan pengisian data dasar skrining`,
     },
     {
       no: 3,
-      text: `Saya akan menjaga kerahasiaan akun saya`,
+      text: `Seluruh data dalam formulir ini dijamin kerahasiaannya dari pihak – pihak yang tidak bertanggung jawab`,
     },
     {
       no: 4,
-      text: `Saya setuju untuk menerima pembaruan dan pemberitahuan dari aplikasi`,
+      text: `Saya sudah mengerti tujuan pengisian formular skrining ini `,
     },
     {
       no: 5,
-      text: `Saya memahami dan setuju dengan konsekuensi yang timbul dari pelanggaran aturan aplikasi`,
+      text: `Saya setuju untuk menerima pembaruan dan pemberitahuan dari aplikasi`,
     },
   ];
 
@@ -74,9 +108,24 @@ const LembarPersetujuan = ({navigation, route}) => {
                 <Text style={[styles.textPoin]}>{data.text}</Text>
               </View>
             ))}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <CheckBox
+                disabled={false}
+                value={isChecked}
+                onValueChange={newValue => setIsChecked(newValue)}
+                style={{width: 50, height: 50, marginRight: 10}}
+                boxType="square"
+              />
+              <Text style={{color: colors.fontColor}}>Ya, saya setuju</Text>
+            </View>
           </View>
         </View>
       </ScrollView>
+
       <View
         style={{
           width: '100%',
@@ -84,23 +133,10 @@ const LembarPersetujuan = ({navigation, route}) => {
           paddingHorizontal: 10,
           marginBottom: 50,
         }}>
-        {/* <CheckBox value={isChecked} onValueChange={handleCheckBoxChange} /> */}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingRight: '20%',
-          }}>
-          <CheckBox
-            disabled={false}
-            value={isChecked}
-            onValueChange={newValue => setIsChecked(newValue)}
-          />
-          <Text style={{color: colors.fontColor}}>Ya, saya setuju</Text>
-        </View>
         <TouchableOpacity
           style={[styles.btn, !isChecked ? {backgroundColor: '#ffffff'} : '']}
-          disabled={!isChecked}>
+          disabled={!isChecked}
+          onPress={moveTo}>
           <Text
             style={[
               !isChecked ? {color: colors.secondary} : {color: '#ffffff'},

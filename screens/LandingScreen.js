@@ -1,9 +1,29 @@
 /* eslint-disable prettier/prettier */
 import {Image, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import BtnPasien from '../components/BtnPasien';
 import BtnUmum from '../components/BtnUmum';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LandingScreen = ({navigation}) => {
+  const [dataUser, setDataUser] = useState([]);
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    AsyncStorage.getItem('data_user')
+      .then(jsonData => {
+        if (jsonData !== null) {
+          const data = JSON.parse(jsonData);
+          setDataUser(data);
+          setRole(data.role);
+          console.log('Data user JSON:', data);
+        } else {
+          console.log('Tidak ada data JSON yang tersimpan.');
+        }
+      })
+      .catch(error => {
+        console.error('Gagal mengambil data JSON:', error);
+      });
+  }, []);
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainerTop}>
@@ -14,8 +34,14 @@ const LandingScreen = ({navigation}) => {
       </View>
       <View style={styles.contentContainerBottom}>
         <View style={styles.wrapBtn}>
-          <BtnPasien navigation={navigation} />
-          <BtnUmum />
+          {role === 'pasien' ? (
+            <BtnPasien navigation={navigation} />
+          ) : (
+            <>
+              <BtnPasien navigation={navigation} />
+              <BtnUmum navigation={navigation} />
+            </>
+          )}
         </View>
         <Image
           source={require('../sourcefile/imgs/Vector_bawah.jpg')}

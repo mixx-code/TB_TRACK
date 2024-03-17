@@ -9,6 +9,8 @@ import BtnHamburger from '../components/BtnHamburger';
 
 const HomeScreen = ({navigation}) => {
   const [dataUser, setDataUser] = useState([]);
+  const [role, setRole] = useState(null);
+  const [isSkrining, setIsSkrining] = useState(true);
   const dataMenu = [
     {
       icon: require('../sourcefile/imgs/menu_info.png'),
@@ -48,6 +50,7 @@ const HomeScreen = ({navigation}) => {
         if (jsonData !== null) {
           const data = JSON.parse(jsonData);
           setDataUser(data);
+          setRole(data.role);
           console.log('Data user JSON:', data);
         } else {
           console.log('Tidak ada data JSON yang tersimpan.');
@@ -56,26 +59,50 @@ const HomeScreen = ({navigation}) => {
       .catch(error => {
         console.error('Gagal mengambil data JSON:', error);
       });
-    AsyncStorage.getItem('data_skrining')
-      .then(jsonData => {
-        if (jsonData !== null) {
-          const data = JSON.parse(jsonData);
-          setDataUser(data);
-          console.log('Data user JSON:', data);
-        } else {
-          console.log('Tidak ada data skrining JSON yang tersimpan.');
-          navigation.navigate('LembarPersetujuan', {
-            page: 'Lembar Persetujuan',
-          });
-        }
-      })
-      .catch(error => {
-        console.error('Gagal mengambil data JSON:', error);
-      });
-  }, [navigation]);
+  }, []);
+
+  useEffect(() => {
+    if (role === 'umum') {
+      AsyncStorage.getItem('data_skrining')
+        .then(dataSkrining => {
+          if (dataSkrining !== null) {
+            const data = dataSkrining;
+            console.log('Data Skrining:', data);
+            setIsSkrining(true);
+          } else {
+            console.log('Tidak ada data skrining UMUM yang tersimpan.');
+            setIsSkrining(false);
+          }
+        })
+        .catch(error => {
+          console.error('Gagal mengambil data JSON:', error);
+        });
+    } else if (role === 'pasien') {
+      AsyncStorage.getItem('data_skrining')
+        .then(dataSkrining => {
+          if (dataSkrining !== null) {
+            const data = dataSkrining;
+            setIsSkrining(true);
+            console.log('Data Skrining:', data);
+          } else {
+            console.log('Tidak ada data skrining PASIEN yang tersimpan.');
+            navigation.navigate('LembarPersetujuan', {
+              page: 'Lembar Persetujuan',
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Gagal mengambil data JSON:', error);
+        });
+    }
+  }, [navigation, role]);
 
   const handleClickMenu = (screen, title) => {
-    navigation.navigate(screen, {title: title});
+    navigation.navigate(screen, {page: title});
+  };
+
+  const moveToLembarPersetujuan = () => {
+    navigation.navigate('LembarPersetujuan', {page: 'Lembar Persetujuan'});
   };
 
   return (
@@ -96,6 +123,32 @@ const HomeScreen = ({navigation}) => {
         <Text style={styles.nama}>
           {dataUser.nama_lengkap !== '' ? dataUser.nama_lengkap : 'Hallo, User'}
         </Text>
+        {isSkrining ? (
+          <Text style={styles.selamatMsg}>
+            Terimakasih sudah melakukan skrining
+          </Text>
+        ) : (
+          ''
+        )}
+        {!isSkrining ? (
+          <View style={[{position: 'absolute', bottom: 0, right: '5%'}]}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: colors.secondary,
+                paddingHorizontal: 10,
+                paddingVertical: 10,
+                borderRadius: 8,
+              }}
+              onPress={moveToLembarPersetujuan}>
+              <Text
+                style={{color: '#ffffff', fontFamily: text.bold, fontSize: 18}}>
+                Lakukan Skrining Mandiri
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          ''
+        )}
       </View>
       <View style={styles.contentContainerBottom}>
         <View style={styles.wrapIconMenu}>
@@ -143,6 +196,11 @@ const styles = StyleSheet.create({
   welcomeMsg: {
     fontFamily: text.light,
     fontSize: 30,
+    color: colors.fontColor,
+  },
+  selamatMsg: {
+    fontFamily: text.lightItalic,
+    fontSize: 18,
     color: colors.fontColor,
   },
   nama: {

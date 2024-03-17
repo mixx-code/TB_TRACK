@@ -39,7 +39,7 @@ const BtnPasien = ({navigation}) => {
 
   //dropdown set
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [role, setRole] = useState(null);
   const [valueJenisKelamin, setValueJenisKelamin] = useState(null);
   const [items, setItems] = useState([
     {label: 'Laki-Laki', value: 'laki-laki'},
@@ -52,6 +52,7 @@ const BtnPasien = ({navigation}) => {
         .then(jsonData => {
           if (jsonData !== null) {
             const data = JSON.parse(jsonData);
+            setRole(data.role);
             console.log('Data user JSON:', data);
             setIsCekSudahDaftar(true);
           } else {
@@ -65,6 +66,7 @@ const BtnPasien = ({navigation}) => {
     };
     cekSudahDaftar();
     const dataUser = {
+      role: 'pasien',
       nama_lengkap: valueNamaLekap,
       umur: valueUmur,
       rt: valueRt,
@@ -170,7 +172,7 @@ const BtnPasien = ({navigation}) => {
 
   const handlePress = () => {
     console.log('klik');
-    if (isCekSudahDaftar) {
+    if (isCekSudahDaftar && role === 'pasien') {
       console.log('sudah daftar');
       navigation.navigate('HomeScreen');
     } else {
@@ -220,10 +222,10 @@ const BtnPasien = ({navigation}) => {
           setIsLoading(false);
           setValueNamaLengkap('');
           setValueUmur('');
-          setValidasiRt('');
-          setValidasiRw('');
+          setValueRt('');
+          setValueRw('');
           setValueAlamat('');
-          navigation.navigate('HomeScreen');
+          navigation.replace('HomeScreen');
         })
         .catch(error => {
           console.error('Gagal menyimpan data JSON:', error);

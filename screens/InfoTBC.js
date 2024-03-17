@@ -7,12 +7,12 @@ import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
 
 const InfoTBC = ({navigation, route}) => {
-  const {title} = route.params;
-  console.log(title);
+  const {page} = route.params;
+  console.log(page);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainerTop}>
-        <BtnBack navigation={navigation} title={title} />
+        <BtnBack navigation={navigation} title={page} />
         <Image
           source={require('../sourcefile/imgs/Vector_atas.jpg')}
           style={styles.vectorAtas}
