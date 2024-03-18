@@ -22,8 +22,13 @@ const InfoTBC = ({navigation, route}) => {
         <View style={styles.contentContainerBottom}>
           <View style={styles.cardInfo}>
             <Text style={styles.textIsiCard}>
-              {<Text style={{fontFamily: text.boldItalic}}>Tuberkulosis</Text>},
-              sering disingkat TB atau TBC, adalah penyakit menular yang
+              {
+                <Text
+                  style={{fontFamily: text.boldItalic, textAlign: 'justify'}}>
+                  Tuberkulosis
+                </Text>
+              }
+              , sering disingkat TB atau TBC, adalah penyakit menular yang
               disebabkan oleh bakteri Mycobacterium tuberculosis. Penyakit ini
               dapat menyerang siapa saja dan organ tubuh yang diserang biasanya
               adalah paru-paru, tulang belakang, kulit, otak, kelenjar getah
@@ -127,6 +132,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: text.light,
     color: colors.fontColor,
-    textAlign: 'left',
+    textAlign: 'justify',
   },
 });

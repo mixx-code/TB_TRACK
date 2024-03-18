@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "1002874844084",
-    "project_id": "TB_TRACT-8927b",
-    "storage_bucket": "TB_TRACT-8927b.appspot.com"
+    "project_id": "TB_TRACK-8927b",
+    "storage_bucket": "TB_TRACK-8927b.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:1002874844084:android:3d1b67e923142ca105b8e1",
         "android_client_info": {
-          "package_name": "com.TB_TRACT"
+          "package_name": "com.TB_TRACK"
         }
       },
       "oauth_client": [

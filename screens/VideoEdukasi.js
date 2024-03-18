@@ -5,7 +5,7 @@ import React from 'react';
 import {text} from '../text';
 import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
-
+import YoutubePlayer from 'react-native-youtube-iframe';
 const VideoEdukasi = ({navigation, route}) => {
   const {page} = route.params;
   console.log(page);
@@ -19,7 +19,14 @@ const VideoEdukasi = ({navigation, route}) => {
           style={styles.vectorAtas}
         />
       </View>
-      <ScrollView style={{width: '100%', height: '90%'}}></ScrollView>
+      <View style={{width: '100%', height: '90%'}}>
+        <YoutubePlayer
+          height={300}
+          // play={playing}
+          videoId={'fTKY-q25GgQ'}
+          // onChangeState={onStateChange}
+        />
+      </View>
     </View>
   );
 };

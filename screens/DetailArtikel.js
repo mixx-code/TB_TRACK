@@ -1,17 +1,27 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Linking,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {text} from '../text';
 import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
 
 const DetailArtikel = ({navigation, route}) => {
-  const {title, page, img, penerbit, isi} = route.params;
+  const {title, page, img, penerbit, isi, tgl, url_link} = route.params;
   console.log(title);
   console.log(page);
+  console.log(tgl);
   console.log(img);
   console.log(penerbit);
+  console.log(url_link);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainerTop}>
@@ -23,7 +33,18 @@ const DetailArtikel = ({navigation, route}) => {
       </View>
       <ScrollView style={{width: '100%', height: '90%'}}>
         <View style={styles.contentContainerBottom}>
-          <Image source={img} style={{marginTop: 50}} />
+          <View
+            style={{
+              width: '80%',
+              height: 200,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={img}
+              style={{resizeMode: 'contain', height: '90%'}}
+            />
+          </View>
           <View style={{width: '100%', paddingHorizontal: 35}}>
             <Text
               style={{
@@ -34,8 +55,9 @@ const DetailArtikel = ({navigation, route}) => {
               }}>
               {title}
             </Text>
-            <Text style={{fontFamily: text.mediumItalic, marginBottom: 10}}>
-              {penerbit}
+            <Text style={{fontFamily: text.mediumItalic}}>{penerbit}</Text>
+            <Text style={{fontFamily: text.lightItalic, marginBottom: 10}}>
+              {tgl}
             </Text>
             <Text
               style={{
@@ -44,13 +66,26 @@ const DetailArtikel = ({navigation, route}) => {
                 color: colors.fontColor,
                 textAlign: 'justify',
               }}>
-              {isi.match(/.{1,250}/g).map((chunk, index) => (
-                <React.Fragment key={index}>
-                  {chunk}
-                  {'\n\n'}
-                </React.Fragment>
-              ))}
+              {isi
+                .match(/\b[\w'?]+(?:[^\w\n]+[\w'?]+){0,55}\b/g)
+                .map((chunk, index) => (
+                  <React.Fragment key={index}>
+                    {chunk}
+                    {'\n\n'}
+                  </React.Fragment>
+                ))}
             </Text>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL(url_link);
+              }}>
+              <Text style={{marginBottom: 20}}>
+                sumber artikel :{' '}
+                <Text style={{fontFamily: text.mediumItalic, color: 'blue'}}>
+                  {url_link}
+                </Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

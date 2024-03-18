@@ -94,9 +94,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.TB_TRACT"
+    namespace "com.TB_TRACK"
     defaultConfig {
-        applicationId "com.TB_TRACT"
+        applicationId "com.TB_TRACK"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

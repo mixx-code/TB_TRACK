@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "TB_TRACT.app"
-               BlueprintName = "TB_TRACT"
-               ReferencedContainer = "container:TB_TRACT.xcodeproj">
+               BuildableName = "TB_TRACK.app"
+               BlueprintName = "TB_TRACK"
+               ReferencedContainer = "container:TB_TRACK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "TB_TRACTTests.xctest"
-               BlueprintName = "TB_TRACTTests"
-               ReferencedContainer = "container:TB_TRACT.xcodeproj">
+               BuildableName = "TB_TRACKTests.xctest"
+               BlueprintName = "TB_TRACKTests"
+               ReferencedContainer = "container:TB_TRACK.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TB_TRACT.app"
-            BlueprintName = "TB_TRACT"
-            ReferencedContainer = "container:TB_TRACT.xcodeproj">
+            BuildableName = "TB_TRACK.app"
+            BlueprintName = "TB_TRACK"
+            ReferencedContainer = "container:TB_TRACK.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TB_TRACT.app"
-            BlueprintName = "TB_TRACT"
-            ReferencedContainer = "container:TB_TRACT.xcodeproj">
+            BuildableName = "TB_TRACK.app"
+            BlueprintName = "TB_TRACK"
+            ReferencedContainer = "container:TB_TRACK.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

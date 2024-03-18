@@ -1,4 +1,4 @@
-package com.TB_TRACT;
+package com.TB_TRACK;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "TB_TRACT";
+    return "TB_TRACK";
   }
 
   @Override

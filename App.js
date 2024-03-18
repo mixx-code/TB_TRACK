@@ -21,6 +21,7 @@ import SkriningUmum from './screens/SkriningUmum';
 import InfoPKM from './screens/InfoPKM';
 import PolaMakan from './screens/PolaMakan';
 import VideoEdukasi from './screens/VideoEdukasi';
+import DetailJadwalPelayanan from './screens/DetailJadwalPelayanan';
 const Stack = createNativeStackNavigator();
 const store = configureStore();
 const App = () => {
@@ -78,6 +79,10 @@ const App = () => {
           />
           <Stack.Screen name="Skrining" component={Skrining} />
           <Stack.Screen name="SkriningUmum" component={SkriningUmum} />
+          <Stack.Screen
+            name="DetailJadwalPelayanan"
+            component={DetailJadwalPelayanan}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

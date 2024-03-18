@@ -5,7 +5,15 @@ import {Image} from 'react-native';
 import {text} from '../text';
 import {colors} from '../colors';
 
-const CardArtikel = ({navigation, img, title, penerbit, isi}) => {
+const CardArtikel = ({
+  navigation,
+  img,
+  title,
+  penerbit,
+  isi,
+  tgl,
+  url_link,
+}) => {
   const moveToDetail = () => {
     navigation.navigate('DetailArtikel', {
       page: 'Detail Artikel',
@@ -13,6 +21,8 @@ const CardArtikel = ({navigation, img, title, penerbit, isi}) => {
       img: img,
       penerbit: penerbit,
       isi: isi,
+      tgl: tgl,
+      url_link: url_link,
     });
   };
 

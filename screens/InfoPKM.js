@@ -23,6 +23,11 @@ const InfoPKM = ({navigation, route}) => {
   const handleBtnLebihBanyak = () => {
     setLebihBanyak(!lebihBanyak);
   };
+  const handleClickMenu = () => {
+    navigation.navigate('DetailJadwalPelayanan', {
+      page: 'Detail Jadwal Pelayanan',
+    });
+  };
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainerTop}>
@@ -71,23 +76,12 @@ const InfoPKM = ({navigation, route}) => {
           <View style={styles.wrapIconMenu}>
             <TouchableOpacity
               style={styles.wrapIconText}
-              // onPress={() => handleClickMenu(data.route, data.title)}
-            >
+              onPress={() => handleClickMenu()}>
               <Image
                 source={require('../sourcefile/imgs/menu_pelayanan.png')}
                 style={styles.iconMenu}
               />
               <Text style={styles.title}>Jadwal Pelayanan</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.wrapIconText}
-              // onPress={() => handleClickMenu(data.route, data.title)}
-            >
-              <Image
-                source={require('../sourcefile/imgs/menu_ukm.png')}
-                style={styles.iconMenu}
-              />
-              <Text style={styles.title}>Jadwal UKM</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.cardInfo}>
@@ -247,7 +241,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     gap: 30,
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   iconMenu: {
     width: 70,

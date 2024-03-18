@@ -21,7 +21,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'TB_TRACT' do
+target 'TB_TRACK' do
   config = use_native_modules!
 
   # Flags change depending on the env values.
@@ -43,7 +43,7 @@ target 'TB_TRACT' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'TB_TRACTTests' do
+  target 'TB_TRACKTests' do
     inherit! :complete
     # Pods for testing
   end
