@@ -5,9 +5,8 @@ import React, {useEffect, useState} from 'react';
 import {text} from '../text';
 import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
-import {TouchableOpacity} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAngleDown, faAngleUp} from '@fortawesome/free-solid-svg-icons';
+import DropdownPelayanan from '../components/DropdownPelayanan';
+import FlatListJamPelayanan from '../components/FlatListJamPelayanan';
 const dataPelayanan = [
   {
     petugas: 'Sumiyati dan M.Dali',
@@ -271,16 +270,6 @@ const DetailJadwalPelayanan = ({navigation, route}) => {
   };
 
   const sortByHari = hari => {
-    // Atur variabel state berdasarkan nilai hari
-    // setOpenSeninSabtu(hari === 'Senin – Sabtu');
-    // setOpenSeninKamisSabtu(hari === 'Senin, Kamis, dan Sabtu');
-    // setOpenSelasa(hari === 'Selasa');
-    // setOpenSelasaKamis(hari === 'Selasa & Kamis');
-    // setOpenRabuKamis(hari === 'Rabu & Jumat' || hari === 'Rabu & Kamis');
-    // setOpenRabu(hari === 'Rabu');
-    // setOpenRabuJumat(hari === 'Rabu & Jumat');
-    // setOpenSabtu(hari === 'Sabtu');
-
     // Filter data berdasarkan hari yang diberikan
     let filteredData = [];
     filteredData = sortedData.filter(item => {
@@ -355,581 +344,75 @@ const DetailJadwalPelayanan = ({navigation, route}) => {
           style={styles.vectorAtas}
         />
       </View>
-      <View
-        style={{
-          width: '90%',
-          borderBottomWidth: 1,
-          borderStyle: 'dashed',
-          borderColor: '#E2E0E0',
-        }}>
-        <Text
-          style={{
-            fontFamily: text.medium,
-            color: colors.fontColor,
-            fontSize: 20,
-            marginBottom: 10,
-          }}>
-          Jam Yang Tersedia
-        </Text>
-        <View style={{flexDirection: 'row', gap: 10, marginBottom: 10}}>
-          <TouchableOpacity
-            onPress={handleSortBy0730}
-            style={[
-              {
-                width: 100,
-                height: 50,
-                borderRadius: 8,
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-              btn0730Aktif
-                ? {
-                    borderWidth: 1,
-                    borderColor: colors.secondary,
-                    backgroundColor: colors.secondary,
-                  }
-                : {borderWidth: 1, borderColor: colors.secondary},
-            ]}>
-            <Text
-              style={[
-                btn0730Aktif ? {color: '#ffffff'} : {color: colors.secondary},
-              ]}>
-              07.30 – 12.00
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleSortBy0800}
-            style={[
-              {
-                width: 100,
-                height: 50,
-                borderRadius: 8,
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-              btn0800Aktif
-                ? {
-                    borderWidth: 1,
-                    borderColor: colors.secondary,
-                    backgroundColor: colors.secondary,
-                  }
-                : {borderWidth: 1, borderColor: colors.secondary},
-            ]}>
-            <Text
-              style={[
-                btn0800Aktif ? {color: '#ffffff'} : {color: colors.secondary},
-              ]}>
-              08.00 – 12.00
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleSortBy24Jam}
-            style={[
-              {
-                width: 100,
-                height: 50,
-                borderRadius: 8,
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-              btn24JamAktif
-                ? {
-                    borderWidth: 1,
-                    borderColor: colors.secondary,
-                    backgroundColor: colors.secondary,
-                  }
-                : {borderWidth: 1, borderColor: colors.secondary},
-            ]}>
-            <Text
-              style={[
-                btn24JamAktif ? {color: '#ffffff'} : {color: colors.secondary},
-              ]}>
-              24 Jam
-            </Text>
-          </TouchableOpacity>
+      <View style={styles.wrapTitleJamLayanan}>
+        <Text style={styles.titleJamYGTersedia}>Jam Yang Tersedia</Text>
+        <View style={styles.flatList}>
+          <FlatListJamPelayanan
+            btnAktif={btn0730Aktif}
+            handleSort={handleSortBy0730}
+            labelJam={'07.30 – 12.00'}
+          />
+          <FlatListJamPelayanan
+            btnAktif={btn0800Aktif}
+            handleSort={handleSortBy0800}
+            labelJam={'08.00 – 12.00'}
+          />
+          <FlatListJamPelayanan
+            btnAktif={btn24JamAktif}
+            handleSort={handleSortBy24Jam}
+            labelJam={'24 Jam'}
+          />
         </View>
       </View>
-      <ScrollView style={{width: '100%', height: '90%'}}>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenSeninSabtu()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Senin - Sabtu</Text>
-              {openSeninSabtu ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openSeninSabtu
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenSeninKamisSabtu()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Senin, Kamis, dan Sabtu</Text>
-              {openSeninKamisSabtu ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openSeninKamisSabtu
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenSelasa()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Selasa</Text>
-              {openSelasa ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openSelasa
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenRabu()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Rabu</Text>
-              {openRabu ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openRabu
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenRabuJumat()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Rabu & Jumat</Text>
-              {openRabuJumat ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openRabuJumat
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenSelasaKamis()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Selasa & Kamis</Text>
-              {openSelasaKamis ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openSelasaKamis
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenSabut()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Sabtu</Text>
-              {openSabtu ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openSabtu
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleOpenSetiapHari()}
-              style={{
-                paddingVertical: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text>Setiap Hari</Text>
-              {openSetiapHari ? (
-                <FontAwesomeIcon icon={faAngleUp} />
-              ) : (
-                <FontAwesomeIcon icon={faAngleDown} />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={[
-              openSetiapHari
-                ? {
-                    width: '90%',
-                    minHeight: 50,
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                  }
-                : {display: 'none'},
-            ]}>
-            {sortedDataPerhari.length === 0 ? (
-              <Text style={{fontFamily: text.lightItalic}}>
-                Tidak Ada Pelayanan
-              </Text>
-            ) : (
-              sortedDataPerhari.map((item, index) => (
-                <View style={{paddingVertical: 5}} key={index}>
-                  <Text
-                    style={{
-                      fontFamily: text.medium,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                    }}>
-                    {item.pelayanan}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: text.light,
-                      color: colors.fontColor,
-                      fontSize: 16,
-                      paddingLeft: 10,
-                    }}>
-                    Petugas : {item.petugas}
-                  </Text>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
+      <ScrollView style={styles.scroll}>
+        <DropdownPelayanan
+          onPress={handleOpenSeninSabtu}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openSeninSabtu}
+          hariPelayanan={'Senin - Sabtu'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenSeninKamisSabtu}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openSeninKamisSabtu}
+          hariPelayanan={'Senin, Kamis dan Sabtu'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenSelasa}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openSelasa}
+          hariPelayanan={'Selasa'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenRabu}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openRabu}
+          hariPelayanan={'Rabu'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenRabuJumat}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openRabuJumat}
+          hariPelayanan={'Rabu & Jumat'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenSelasaKamis}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openSelasaKamis}
+          hariPelayanan={'Selasa & Kamis'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenSabut}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openSabtu}
+          hariPelayanan={'Sabtu'}
+        />
+        <DropdownPelayanan
+          onPress={handleOpenSetiapHari}
+          dataPelayanan={sortedDataPerhari}
+          openDropdown={openSetiapHari}
+          hariPelayanan={'Setiap hari'}
+        />
       </ScrollView>
     </View>
   );
@@ -954,19 +437,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.secondary,
   },
-  contentContainerBottom: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  vectorBawah: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 330,
-    zIndex: -10,
-  },
   vectorAtas: {
     position: 'absolute',
     top: 0,
@@ -974,27 +444,18 @@ const styles = StyleSheet.create({
     height: 50,
     zIndex: -1,
   },
-  cardInfo: {
-    marginTop: 50,
-    backgroundColor: '#ffffff',
-    width: '80%',
-    minHeight: 200,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-
-    elevation: 15,
+  scroll: {width: '100%', height: '90%'},
+  wrapTitleJamLayanan: {
+    width: '90%',
+    borderBottomWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: '#E2E0E0',
   },
-  textIsiCard: {
-    fontSize: 20,
-    fontFamily: text.light,
+  titleJamYGTersedia: {
+    fontFamily: text.medium,
     color: colors.fontColor,
+    fontSize: 20,
+    marginBottom: 10,
   },
+  flatList: {flexDirection: 'row', gap: 10, marginBottom: 10},
 });
