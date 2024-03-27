@@ -14,7 +14,7 @@ const alarmReducer = (state = initialState, action) => {
       const payload = action.payload;
       const time = Moment(payload.date.value).format('hh:mm A');
       const date = Moment(payload.date.value).format('DD/MM/YYYY');
-      console.log(time);
+      console.log('aa', time);
       const alarm = {
         alarmNotifData: payload,
         value: payload.date.value,

@@ -406,7 +406,7 @@ const Skrining = ({navigation, route}) => {
                   color: colors.fontColor,
                   fontSize: 21,
                 }}>
-                Lember Persetujuan
+                Lembar skrining
               </Text>
               <View style={{alignItems: 'flex-start'}}>
                 <View style={styles.wrapTextPoin}>

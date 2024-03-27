@@ -1,174 +1,164 @@
-import React, { useState, useEffect } from 'react'
-import {
-    StyleSheet,
-    Pressable,
-    Alert,
-    Text,
-} from 'react-native';
+/* eslint-disable prettier/prettier */
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Pressable, Alert, Text} from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { connect } from 'react-redux';
-import { addAlarm } from "../actions/alarms";
+import {connect} from 'react-redux';
+import {addAlarm} from '../actions/alarms';
 import PushNotification, {Importance} from 'react-native-push-notification';
 
-const TimePicker = (props) => {
-    const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
+const TimePicker = props => {
+  const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
 
-    const [id, setId] = useState(0);
-      
-    useEffect(() => {
-        createChannels();
-    }, []);
+  const [id, setId] = useState(0);
 
-    const generateId = () => {
-        const newId = id + 1;
-        setId(newId);
-        return newId;
-      };
+  useEffect(() => {
+    createChannels();
+  }, []);
 
-    const createChannels = () => {
-        PushNotification.createChannel({
-            channelId: "alarm-channel",
-            channelName: "Alarm Channel",
-        });
+  const generateId = () => {
+    const newId = id + 1;
+    setId(newId);
+    return newId;
+  };
+
+  const createChannels = () => {
+    PushNotification.createChannel({
+      channelId: 'alarm-channel',
+      channelName: 'Alarm Channel',
+    });
+  };
+
+  const showDateTimePicker = () => {
+    setIsDateTimePickerVisible(true);
+  };
+  const hideDateTimePicker = () => {
+    setIsDateTimePickerVisible(false);
+  };
+
+  const handleDatePicker = dateTime => {
+    var currentTime = Date.now();
+    if (dateTime.getTime() < currentTime) {
+      Alert.alert('Please choose future time');
+      hideDateTimePicker();
+      return;
+    }
+    const fireDate = dateTime;
+
+    const alarmNotifData = {
+      channelId: 'alarm-channel',
+      ticker: 'My Notification Message',
+
+      id: generateId(),
+      title: 'Alarm Ringing',
+      message: 'Message Here',
+      autoCancel: true,
+      vibrate: true,
+      vibration: 100,
+      smallIcon: 'ic_launcher',
+      largeIcon: 'ic_launcher',
+      playSound: true,
+      soundName: 'alarm_tone',
+      color: 'red',
+      //schedule_once: true,
+      tag: 'some_tag',
+      fire_date: fireDate,
+      date: {value: dateTime},
+      //date: fireDate,
     };
+    props.add(alarmNotifData);
+    console.log('ID: ' + alarmNotifData.id);
 
-    const showDateTimePicker = () => {
-        setIsDateTimePickerVisible(true);
-    }
-    const hideDateTimePicker = () => {
-        setIsDateTimePickerVisible(false);
-    }
+    PushNotification.localNotificationSchedule({
+      channelId: 'alarm-channel',
+      title: alarmNotifData.title,
 
+      id: alarmNotifData.id,
+      message: alarmNotifData.message,
+      date: alarmNotifData.fire_date,
+      soundName: 'alarm_tone',
+      actions: ['Snooze', 'Stop Alarm'],
+      importance: Importance.HIGH,
+      playSound: true,
+      allowWhileIdle: true,
+      invokeApp: false,
+    });
 
-    const handleDatePicker = (dateTime) => {
-        var currentTime = Date.now();
-        if (dateTime.getTime() < currentTime) {
-            Alert.alert("Please choose future time");
-            hideDateTimePicker();
-            return;
-        }
-        const fireDate = dateTime;
+    PushNotification.configure({
+      onAction: function (notification) {
+        if (notification.action === 'Snooze') {
+          console.log('Alarm ' + notification.id + ' Snoozed');
+          console.log('Alarm ID: ' + notification.id);
 
+          PushNotification.localNotificationSchedule({
+            channelId: 'alarm-channel',
+            title: notification.title,
 
-        const alarmNotifData = {
-
-            channelId: "alarm-channel",
-            ticker: "My Notification Message",
-
-            id: generateId(),
-            title: "Alarm Ringing",
-            message: "Message Here",
-            autoCancel: true,
-            vibrate: true,
-            vibration: 100,
-            smallIcon: "ic_launcher",
-            largeIcon: "ic_launcher",
-            playSound: true,
-            soundName: "alarm_tone",
-            color: 'red',
-            //schedule_once: true,
-            tag: "some_tag",
-            fire_date: fireDate,
-            date: { value: dateTime }
-            //date: fireDate,
-        }
-        props.add(alarmNotifData);
-        console.log('ID: ' + alarmNotifData.id)
-        
-        PushNotification.localNotificationSchedule({
-            channelId: "alarm-channel",
-            title: alarmNotifData.title,
-
-            id: alarmNotifData.id,
-            message: alarmNotifData.message,
-            date: alarmNotifData.fire_date,
-            soundName: "default",
-            actions: ["Snooze", "Stop Alarm"],
+            id: notification.id,
+            message: notification.message,
+            date: new Date(Date.now() + 2 * 1000),
+            soundName: 'alarm_tone',
+            actions: ['Snooze', 'Stop Alarm'],
             importance: Importance.HIGH,
             playSound: true,
             allowWhileIdle: true,
             invokeApp: false,
-        });
-        
-        PushNotification.configure({
-            onAction: function (notification) {
-                if (notification.action === 'Snooze') {
-                    console.log('Alarm ' + notification.id + ' Snoozed');
-                    console.log('Alarm ID: ' + notification.id)
-                    
-                    PushNotification.localNotificationSchedule({
-                        channelId: "alarm-channel",
-                        title: notification.title,
-            
-                        id: notification.id,
-                        message: notification.message,
-                        date: new Date(Date.now() + 2 * 1000),
-                        soundName: "default",
-                        actions: ["Snooze", "Stop Alarm"],
-                        importance: Importance.HIGH,
-                        playSound: true,
-                        allowWhileIdle: true,
-                        invokeApp: false,
-                    });
-                }
-                else if (notification.action === 'Stop Alarm') {
-                    console.log('Alarm ' + notification.id + ' Stopped');
-                    PushNotification.cancelLocalNotification(notification.id);
-                }
-                else {
-                    console.log('Notification opened');
-                }
-            },
-            actions: ["Snooze", "Stop Alarm"],
-        });
-        hideDateTimePicker();
-    }
-    return (
-        <>
-            <Pressable
-                style={styles.buttonStyle}
-                onPress={() => {
-                    showDateTimePicker(),
-                        //handleNotification(),
-                        console.log("ShowDateTime");
-                }}>
-                <Text style={styles.buttonText}>+ Add Alarm</Text>
-            </Pressable>
-            <DateTimePicker
-                mode='datetime'
-                isVisible={isDateTimePickerVisible}
-                onConfirm={handleDatePicker}
-                onCancel={hideDateTimePicker}
-            />
-        </>
-    );
-}
-
+          });
+        } else if (notification.action === 'Stop Alarm') {
+          console.log('Alarm ' + notification.id + ' Stopped');
+          PushNotification.cancelLocalNotification(notification.id);
+        } else {
+          console.log('Notification opened');
+        }
+      },
+      actions: ['Snooze', 'Stop Alarm'],
+    });
+    hideDateTimePicker();
+  };
+  return (
+    <>
+      <Pressable
+        style={styles.buttonStyle}
+        onPress={() => {
+          showDateTimePicker(),
+            //handleNotification(),
+            console.log('ShowDateTime');
+        }}>
+        <Text style={styles.buttonText}>+ Add Alarm</Text>
+      </Pressable>
+      <DateTimePicker
+        mode="datetime"
+        isVisible={isDateTimePickerVisible}
+        onConfirm={handleDatePicker}
+        onCancel={hideDateTimePicker}
+      />
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
-    buttonStyle: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'blue',
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-    },
-    buttonText: {
-        fontSize: 15,
-        //fontWeight:'bold',
-        color: 'white',
-    }
+  buttonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'blue',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  buttonText: {
+    fontSize: 15,
+    //fontWeight:'bold',
+    color: 'white',
+  },
 });
 
 const mapStateToProps = state => {
-    return {};
-}
+  return {};
+};
 const mapDispatchToProps = dispatch => {
-    return {
-        add: alarmNotifData => {
-            dispatch(addAlarm(alarmNotifData))
-        }
-    };
-}
+  return {
+    add: alarmNotifData => {
+      dispatch(addAlarm(alarmNotifData));
+    },
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimePicker);

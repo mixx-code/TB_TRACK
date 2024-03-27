@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors} from '../colors';
 
-const FlatListJamPelayanan = ({handleSort, btnAktif, labelJam}) => {
+const FlatListHariMenuMakan = ({handleSort, btnAktif, labelJam}) => {
   return (
     <TouchableOpacity
       onPress={handleSort}
@@ -14,7 +14,6 @@ const FlatListJamPelayanan = ({handleSort, btnAktif, labelJam}) => {
           borderRadius: 8,
           alignItems: 'center',
           justifyContent: 'center',
-          marginVertical: 10,
         },
         btnAktif
           ? {
@@ -31,4 +30,4 @@ const FlatListJamPelayanan = ({handleSort, btnAktif, labelJam}) => {
   );
 };
 
-export default FlatListJamPelayanan;
+export default FlatListHariMenuMakan;

@@ -23,9 +23,9 @@ const HomeScreen = ({navigation}) => {
       route: 'MenuArtikel',
     },
     {
-      icon: require('../sourcefile/imgs/menu_remainder.png'),
-      title: 'Remainder',
-      route: 'MenuRemainder',
+      icon: require('../sourcefile/imgs/menu_reminder.png'),
+      title: 'Reminder',
+      route: 'Reminder',
     },
     {
       icon: require('../sourcefile/imgs/menu_pkm.png'),

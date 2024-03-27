@@ -457,5 +457,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
   },
-  flatList: {flexDirection: 'row', gap: 10, marginBottom: 10},
+  flatList: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
 });
