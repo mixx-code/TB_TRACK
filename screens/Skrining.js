@@ -113,20 +113,20 @@ const Skrining = ({navigation, route}) => {
         }
       })
       .catch(error => {
-        console.error('Gagal mengambil data JSON:', error);
+        console.error('Gagal mengambil data JSON ssss:', error);
       });
-    AsyncStorage.getItem('data_skrining')
+    AsyncStorage.getItem('data_skrining_pasien')
       .then(jsonData => {
         if (jsonData !== null) {
           const data = JSON.parse(jsonData);
           console.log('Data user JSON:', data);
-          navigation.navigate('HomeScreen');
+          navigation.replace('HomeScreen');
         } else {
           console.log('Tidak ada data skrining JSON yang tersimpan.');
         }
       })
       .catch(error => {
-        console.error('Gagal mengambil data JSON:', error);
+        console.error('Gagal mengambil data JSON wwww:', error);
       });
   }, []);
   useEffect(() => {
@@ -332,7 +332,8 @@ const Skrining = ({navigation, route}) => {
       Mailer.mail(
         {
           subject: `[${dataUser.role}] ${dataUser.nama_lengkap}`,
-          recipients: ['kikiy0000001@gmail.com'],
+          recipients: ['tbtrack24@gmail.com'],
+          // recipients: ['kikiy0000001@gmail.com'],
           body: emailContent,
           isHTML: true,
         },
@@ -355,10 +356,10 @@ const Skrining = ({navigation, route}) => {
           // Jika email berhasil terkirim, simpan data ke AsyncStorage
         },
       );
-      AsyncStorage.setItem('data_skrining', rangkumanSkrining)
+      AsyncStorage.setItem('data_skrining_pasien', rangkumanSkrining)
         .then(() => {
-          console.log('Data Skrining tersimpan.');
-          navigation.navigate('HomeScreen');
+          console.log('Data Skrining pasien tersimpan.');
+          navigation.replace('HomeScreen');
         })
         .catch(error => {
           console.error('Gagal menyimpan data skrining:', error);
@@ -425,6 +426,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId1}
                     llayout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -443,6 +445,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId2}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -461,6 +464,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId3}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -479,6 +483,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId4}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -497,6 +502,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId5}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                   {/* <View
                     style={[
@@ -566,6 +572,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId6}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -586,6 +593,7 @@ const Skrining = ({navigation, route}) => {
                     selectedId={selectedId7}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>

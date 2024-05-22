@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LandingScreen = ({navigation}) => {
   const [dataUser, setDataUser] = useState([]);
   const [role, setRole] = useState(null);
+
   useEffect(() => {
     AsyncStorage.getItem('data_user')
       .then(jsonData => {

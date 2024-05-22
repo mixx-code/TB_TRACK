@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {text} from '../text';
 import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
@@ -9,7 +9,10 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 const VideoEdukasi = ({navigation, route}) => {
   const {page} = route.params;
   console.log(page);
-
+  const [loading, setLoading] = useState(true);
+  const onVideoLoad = () => {
+    setLoading(false); // Set loading menjadi false ketika video sudah dimuat
+  };
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainerTop}>
@@ -20,10 +23,12 @@ const VideoEdukasi = ({navigation, route}) => {
         />
       </View>
       <View style={{width: '100%', height: '90%'}}>
+        {loading && <Text>Loading...</Text>}
         <YoutubePlayer
           height={300}
           // play={playing}
-          videoId={'fTKY-q25GgQ'}
+          videoId={'RfKeGrjrJw8'}
+          onReady={onVideoLoad}
           // onChangeState={onStateChange}
         />
       </View>

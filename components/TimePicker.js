@@ -131,7 +131,7 @@ const TimePicker = ({sandDataTime, sandTglAkhir}) => {
       ticker: 'My Notification Message',
       id: generateId(),
       title: 'Alarm Minum Obat',
-      message: 'Jangan lupa selalu minum abat yang diberikan dokter',
+      message: 'Jangan lupa selalu minum obat yang diberikan dokter',
       autoCancel: true,
       vibrate: true,
       vibration: 100,

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableOpacityBase,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -15,7 +14,7 @@ import {colors} from '../colors';
 import {text} from '../text';
 import Modal from 'react-native-modal';
 
-const BtnHamburger = () => {
+const BtnHamburger = ({navigation}) => {
   const [modalVisibleTetang, setModalVisibleTetang] = useState(false);
   const [modalVisibleBantuan, setModalVisibleBantuan] = useState(false);
   const [isOpenedDropdown, setIsOpenedDropdown] = useState(false);
@@ -25,6 +24,7 @@ const BtnHamburger = () => {
   };
 
   const exit = () => {
+    navigation.replace('Splash');
     BackHandler.exitApp();
   };
 

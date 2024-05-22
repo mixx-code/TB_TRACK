@@ -15,6 +15,7 @@ import {text} from '../text';
 import {colors} from '../colors';
 import BtnBack from '../components/BtnBack';
 import FlatListJamPelayanan from '../components/FlatListJamPelayanan';
+import FlatListHariMenuMakan from '../components/FlatListHariMenuMakan';
 
 const dataPolaMakan = [
   {
@@ -312,6 +313,7 @@ const PolaMakan = ({navigation, route}) => {
       const dataFilter = dataPolaMakan.filter(
         item => item.hari.toLowerCase() === hari.toLowerCase(),
       );
+      setDataMenuHarian(dataFilter);
     } else if (hari === 'minggu') {
       setSenin(false);
       setSelasa(false);
@@ -380,37 +382,37 @@ const PolaMakan = ({navigation, route}) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center'}}>
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={senin}
           handleSort={() => sortDataByHari('senin')}
           labelJam={'Senin'}
         />
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={selasa}
           handleSort={() => sortDataByHari('selasa')}
           labelJam={'Selasa'}
         />
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={rabu}
           handleSort={() => sortDataByHari('rabu')}
           labelJam={'Rabu'}
         />
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={kamis}
           handleSort={() => sortDataByHari('kamis')}
           labelJam={'Kamis'}
         />
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={jumat}
           handleSort={() => sortDataByHari('jumat')}
           labelJam={'Jumat'}
         />
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={sabtu}
           handleSort={() => sortDataByHari('sabtu')}
           labelJam={'Sabtu'}
         />
-        <FlatListJamPelayanan
+        <FlatListHariMenuMakan
           btnAktif={minggu}
           handleSort={() => sortDataByHari('minggu')}
           labelJam={'Minggu'}
@@ -425,8 +427,20 @@ const PolaMakan = ({navigation, route}) => {
             key={index}
             style={{width: '100%', alignItems: 'center', marginVertical: 20}}>
             <View style={styles.cardMenu}>
-              <Text style={{fontFamily: text.bold, fontSize: 25}}>Pagi</Text>
-              <Text style={{fontFamily: text.bold, fontSize: 19}}>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 25,
+                  color: colors.fontColor,
+                }}>
+                Pagi
+              </Text>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 19,
+                  color: colors.fontColor,
+                }}>
                 Menu Sarapan
               </Text>
               {item.pagi.menu.map((dataMenu, index) => (
@@ -436,9 +450,15 @@ const PolaMakan = ({navigation, route}) => {
                     fontFamily: text.light,
                     fontSize: 19,
                     paddingLeft: 10,
+                    color: colors.fontColor,
                   }}>{`\u2022  ${dataMenu}`}</Text>
               ))}
-              <Text style={{fontFamily: text.bold, fontSize: 19}}>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 19,
+                  color: colors.fontColor,
+                }}>
                 Aktivitas Olahraga
               </Text>
               <Text
@@ -447,13 +467,26 @@ const PolaMakan = ({navigation, route}) => {
                   fontFamily: text.light,
                   fontSize: 19,
                   paddingLeft: 10,
+                  color: colors.fontColor,
                 }}>
                 {`\u2022  ${item.pagi.aktivitasOlahraga}`}
               </Text>
             </View>
             <View style={styles.cardMenu}>
-              <Text style={{fontFamily: text.bold, fontSize: 25}}>Siang</Text>
-              <Text style={{fontFamily: text.bold, fontSize: 19}}>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 25,
+                  color: colors.fontColor,
+                }}>
+                Siang
+              </Text>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 19,
+                  color: colors.fontColor,
+                }}>
                 Menu Makan Siang
               </Text>
               {item.siang.menu.map((dataMenu, index) => (
@@ -463,12 +496,25 @@ const PolaMakan = ({navigation, route}) => {
                     fontFamily: text.light,
                     fontSize: 19,
                     paddingLeft: 10,
+                    color: colors.fontColor,
                   }}>{`\u2022  ${dataMenu}`}</Text>
               ))}
             </View>
             <View style={styles.cardMenu}>
-              <Text style={{fontFamily: text.bold, fontSize: 25}}>Malam</Text>
-              <Text style={{fontFamily: text.bold, fontSize: 19}}>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 25,
+                  color: colors.fontColor,
+                }}>
+                Malam
+              </Text>
+              <Text
+                style={{
+                  fontFamily: text.bold,
+                  fontSize: 19,
+                  color: colors.fontColor,
+                }}>
                 Menu Makan Malam
               </Text>
               {item.malam.menu.map((dataMenu, index) => (
@@ -478,6 +524,7 @@ const PolaMakan = ({navigation, route}) => {
                     fontFamily: text.light,
                     fontSize: 19,
                     paddingLeft: 10,
+                    color: colors.fontColor,
                   }}>{`\u2022  ${dataMenu}`}</Text>
               ))}
             </View>

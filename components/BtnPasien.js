@@ -174,7 +174,7 @@ const BtnPasien = ({navigation}) => {
     console.log('klik');
     if (isCekSudahDaftar && role === 'pasien') {
       console.log('sudah daftar');
-      navigation.navigate('HomeScreen');
+      navigation.replace('HomeScreen');
     } else {
       console.log('belum daftar');
       setModalVisible(!modalVisible);

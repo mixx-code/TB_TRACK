@@ -174,20 +174,20 @@ const SkriningUmum = ({navigation, route}) => {
         }
       })
       .catch(error => {
-        console.error('Gagal mengambil data JSON:', error);
+        console.error('Gagal mengambil data JSON aaa:', error);
       });
     AsyncStorage.getItem('data_skrining')
       .then(jsonData => {
         if (jsonData !== null) {
           const data = JSON.parse(jsonData);
           console.log('Data user JSON:', data);
-          navigation.navigate('HomeScreen');
+          navigation.replace('HomeScreen');
         } else {
           console.log('Tidak ada data skrining JSON yang tersimpan.');
         }
       })
       .catch(error => {
-        console.error('Gagal mengambil data JSON:', error);
+        console.error('Gagal mengambil data JSON ggg:', error);
       });
   }, []);
   useEffect(() => {
@@ -486,7 +486,8 @@ const SkriningUmum = ({navigation, route}) => {
       Mailer.mail(
         {
           subject: `[${dataUser.role}], ${dataUser.nama_lengkap}`,
-          recipients: ['kikiy0000001@gmail.com'],
+          recipients: ['pbl6fkmumj24@gmail.com'],
+          // recipients: ['iki575446@gmail.com'],
           body: emailContent,
           isHTML: true,
         },
@@ -561,6 +562,7 @@ const SkriningUmum = ({navigation, route}) => {
                     selectedId={selectedId1}
                     llayout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                   <View
                     style={[
@@ -582,6 +584,7 @@ const SkriningUmum = ({navigation, route}) => {
                       selectedId={selectedIdSoal1Tambahan1}
                       layout="column"
                       containerStyle={{alignItems: 'flex-start'}}
+                      labelStyle={{color: colors.fontColor}}
                     />
                     <Text
                       style={[
@@ -596,6 +599,7 @@ const SkriningUmum = ({navigation, route}) => {
                       selectedId={selectedIdSoal1Tambahan2}
                       layout="column"
                       containerStyle={{alignItems: 'flex-start'}}
+                      labelStyle={{color: colors.fontColor}}
                     />
                   </View>
                 </View>
@@ -618,6 +622,7 @@ const SkriningUmum = ({navigation, route}) => {
                     selectedId={selectedId2}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -638,6 +643,7 @@ const SkriningUmum = ({navigation, route}) => {
                     selectedId={selectedId3}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -660,6 +666,7 @@ const SkriningUmum = ({navigation, route}) => {
                     selectedId={selectedId4}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>
@@ -678,6 +685,7 @@ const SkriningUmum = ({navigation, route}) => {
                     selectedId={selectedId5}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                   <View
                     style={[
@@ -748,6 +756,7 @@ const SkriningUmum = ({navigation, route}) => {
                     selectedId={selectedId6}
                     layout="column"
                     containerStyle={{alignItems: 'flex-start'}}
+                    labelStyle={{color: colors.fontColor}}
                   />
                 </View>
               </View>

@@ -33,6 +33,7 @@ const App = () => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [message, setMessage] = useState('');
+
   // PushNotification.configure({
   //   onRegister: function (token) {
   //     //console.log("TOKEN:", token);
@@ -62,6 +63,7 @@ const App = () => {
   //   popInitialNotification: true,
   //   requestPermissions: Platform.OS === 'ios',
   // });
+
   useEffect(() => {
     const fetchData = async () => {
       try {

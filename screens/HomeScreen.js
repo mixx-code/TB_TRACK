@@ -1,6 +1,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  BackHandler,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {text} from '../text';
@@ -78,12 +86,12 @@ const HomeScreen = ({navigation}) => {
           console.error('Gagal mengambil data JSON:', error);
         });
     } else if (role === 'pasien') {
-      AsyncStorage.getItem('data_skrining')
+      AsyncStorage.getItem('data_skrining_pasien')
         .then(dataSkrining => {
           if (dataSkrining !== null) {
             const data = dataSkrining;
             setIsSkrining(true);
-            console.log('Data Skrining:', data);
+            console.log('Data Skrining pasien:', data);
           } else {
             console.log('Tidak ada data skrining PASIEN yang tersimpan.');
             navigation.navigate('LembarPersetujuan', {
@@ -116,7 +124,7 @@ const HomeScreen = ({navigation}) => {
           source={require('../sourcefile/imgs/Vector_atas.jpg')}
           style={styles.vectorAtas}
         />
-        <BtnHamburger />
+        <BtnHamburger navigation={navigation} />
       </View>
       <View style={styles.contentContainerMid}>
         <Text style={styles.welcomeMsg}>Selamat Datang!</Text>
@@ -213,6 +221,7 @@ const styles = StyleSheet.create({
     height: '70%',
     alignItems: 'center',
     position: 'relative',
+    zIndex: -22,
   },
   logoImg: {
     width: 353 / 1.5 / 2 / 1.2,

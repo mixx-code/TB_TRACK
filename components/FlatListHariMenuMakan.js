@@ -14,6 +14,8 @@ const FlatListHariMenuMakan = ({handleSort, btnAktif, labelJam}) => {
           borderRadius: 8,
           alignItems: 'center',
           justifyContent: 'center',
+          marginVertical: 10,
+          marginHorizontal: 10,
         },
         btnAktif
           ? {
